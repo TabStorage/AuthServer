@@ -4,6 +4,7 @@
 
 config.py
 .vscode/
+app.db
 
 ### Flask ###
 instance/*

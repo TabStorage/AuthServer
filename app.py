@@ -1,7 +1,9 @@
 from flask import Flask, Response, jsonify
 from flask_sqlalchemy import SQLAlchemy
-import auth
+from flask_bcrypt import Bcrypt
+from flask_migrate import Migrate
 
+import auth
 
 # Define response class
 class JsonResponse(Response):
@@ -15,7 +17,11 @@ class JsonResponse(Response):
 app = Flask(__name__)
 app.config.from_object('config')
 app.response_class = JsonResponse
+
+# Set extension
 db = SQLAlchemy(app)
+bcrypt = Bcrypt(app)
+migrate = Migrate(app, db)
 
 @app.route('/')
 def hello_world():
