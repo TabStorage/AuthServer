@@ -1,0 +1,7 @@
+POST http://127.0.0.1:5000/auth/login
+content-type: application/json
+
+{
+    "email": "sample",
+    "time": "Wed, 21 Oct 2015 18:27:50 GMT"
+}
