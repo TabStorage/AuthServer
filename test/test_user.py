@@ -2,7 +2,7 @@ import unittest
 
 from flask import Flask
 
-from app import db
+from tabfarm.app import db
 from models import User
 
 class TestUser(unittest.TestCase):
@@ -12,7 +12,7 @@ class TestUser(unittest.TestCase):
         with self.app.app_context():
             db.create_all()
 
-    def test_user(self):
+    def test_common_user(self):
         user_test = {
             'email' : "abcd@ff.cc",
             'password' : "abcdefg",
@@ -22,9 +22,8 @@ class TestUser(unittest.TestCase):
         self.assertTrue(user.validated_password(user_test['password']))
         self.assertFalse(user.validated_password('1234'))
 
-        # db.session.add(user)
-        # db.session.commit()
-
+        db.session.add(user)
+        db.session.commit()
 
         test = User.query.filter_by(username='test').first()
         self.assertTrue(user == test)

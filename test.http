@@ -1,7 +1,21 @@
-POST http://127.0.0.1:5000/auth/login
+
+# Common user generate test
+POST http://127.0.0.1:5000/auth/join
 content-type: application/json
 
 {
-    "email": "sample",
-    "time": "Wed, 21 Oct 2015 18:27:50 GMT"
+    "username": "test1",
+    "email": "sample@naver.com",
+    "password": "test1234"
+}
+
+# Admin user generate
+POST http://127.0.0.1:5000/auth/join
+content-type: application/json
+
+{
+    "username": "test1",
+    "email": "sample@naver.com",
+    "password": "test1234",
+    "role": "admin"
 }
