@@ -2,21 +2,22 @@ import unittest
 
 from flask import Flask
 
-from tabfarm.app import db
-from models import User
+from app import db
+from app.auth.models import User
 
 class TestUser(unittest.TestCase):
     def setUp(self):
         self.app = Flask(__name__)
         db.init_app(self.app)
-        with self.app.app_context():
-            db.create_all()
+
+        db.create_all()
+        db.session.commit()
 
     def test_common_user(self):
         user_test = {
             'email' : "abcd@ff.cc",
             'password' : "abcdefg",
-            'username' : "test"
+            'username' : "test",
         }
         user = User(**user_test)
         self.assertTrue(user.validated_password(user_test['password']))
@@ -27,4 +28,12 @@ class TestUser(unittest.TestCase):
 
         test = User.query.filter_by(username='test').first()
         self.assertTrue(user == test)
+
+        token = user.generate_token()
+
+        self.assertEqual(user_test['username'], User.validated_token(token))
+
+    def tearDown(self):
+        db.session.remove()
+        db.drop_all()
 

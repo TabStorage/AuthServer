@@ -1,6 +1,6 @@
 
 # Common user generate test
-POST http://127.0.0.1:5000/auth/join
+POST http://127.0.0.1:5000/auth/login
 content-type: application/json
 
 {
@@ -10,7 +10,7 @@ content-type: application/json
 }
 
 # Admin user generate
-POST http://127.0.0.1:5000/auth/join
+POST http://127.0.0.1:5000/auth/
 content-type: application/json
 
 {
