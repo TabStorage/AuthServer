@@ -3,7 +3,7 @@ import unittest
 from flask import Flask
 
 from app import db
-from app.auth.models import User
+from app.models import User
 
 class TestUser(unittest.TestCase):
     def setUp(self):
@@ -36,4 +36,3 @@ class TestUser(unittest.TestCase):
     def tearDown(self):
         db.session.remove()
         db.drop_all()
-

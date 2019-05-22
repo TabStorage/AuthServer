@@ -1,12 +1,12 @@
 from flask import Blueprint, make_response, jsonify, request
 
 from app import db
-from .models import User
+from app.models import User
 
-auth = Blueprint('auth', __name__)
+from . import auth_blueprint
 
 
-@auth.route('/login', methods=['POST'])
+@auth_blueprint.route('/login', methods=['POST'])
 def login():
     if not request.json:
         abort(400)
@@ -34,7 +34,7 @@ def login():
             'msg': 'Some error occured.'
         }
 
-@auth.route('/join', methods=['POST'])
+@auth_blueprint.route('/join', methods=['POST'])
 def join():
     if not request.json:
         abort(400)

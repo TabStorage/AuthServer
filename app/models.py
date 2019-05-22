@@ -4,9 +4,9 @@ import datetime
 
 import jwt
 from sqlalchemy.orm import validates, backref
+from flask import current_app
 
-
-from app import db, bcrypt, app
+from app import db, bcrypt
 
 
 class User(db.Model):
@@ -16,14 +16,12 @@ class User(db.Model):
     password_hash = db.Column(db.String(128), nullable=False)
     username = db.Column(db.String(100), nullable=False)
     role = db.Column(db.String(5), default='user')
-    created_date = db.Column(db.DateTime, default=datetime.datetime.now)
-
-    # groups = db.relationship("JoinGroup")
+    joined_date = db.Column(db.DateTime, default=datetime.datetime.now)
 
     def __init__(self, email, username, role='user', password=None):
         self.email = email
         self.username = username
-        self.role
+        self.role = role
 
         if password is not None:
             self.set_password(password)
@@ -62,17 +60,19 @@ class User(db.Model):
             payload = {
                 'exp': datetime.datetime.utcnow() + datetime.timedelta(days=3),
                 'iat': datetime.datetime.utcnow(),
-                'sub':self.username,
+                'sub': self.username,
                 'role': self.role,
+                'user_id': self.id
+
             }
-            return jwt.encode(payload, app.config.get('SECRET_KEY'), algorithm='HS256')
+            return jwt.encode(payload, current_app.config.get('SECRET_KEY'), algorithm='HS256')
         except Exception as e:
             return e
 
     @staticmethod
     def validated_token(token):
         try: 
-            payload = jwt.decode(token, app.config.get('SECRET_KEY'))
+            payload = jwt.decode(token, current_app.config.get('SECRET_KEY'))
 
             return payload['sub']
         
@@ -83,7 +83,15 @@ class User(db.Model):
             return 'token was wrong'
 
         except jwt.DecodeError:
-            return 'token was wrong'
+            return 'token decode error'
+
+    def as_dict(self):
+        return {
+            'id': self.id,
+            'email': self.email,
+            'username': self.username,
+            'role': self.role
+        }
 
     def __repr__(self):
         return self.username
@@ -93,25 +101,32 @@ class Group(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     group_name = db.Column(db.String(100), unique=True)
     description = db.Column(db.String(200), nullable=True)
+    type = db.Column(db.Integer, nullable=False)
 
     # members = db.relationship("JoinGroup")
     
-    def __init__(self, group_name, description):
+    def __init__(self, group_name, description, type=0):
         self.group_name = group_name
         self.description = description
+        self.type = 0
 
 class JoinGroup(db.Model):
     __table_name__ = 'group_members'
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey(User.id))
-    group_id = db.Column(db.Integer, db.ForeignKey(Group.id))
+    user_id = db.Column(db.Integer, db.ForeignKey(User.id), nullable=False)
+    group_id = db.Column(db.Integer, db.ForeignKey(Group.id), nullable=False)
+    joined_date = db.Column(db.DateTime, default=datetime.datetime.now)
 
     user = db.relationship("User", backref=backref('groups', cascade="all, delete-orphan"))
     group = db.relationship("Group", backref=backref('members', cascade="all, delete-orphan"))
+
+    def __init__(self, user_id, group_id):
+        self.user_id = user_id
+        self.group_id = group_id
 
 class Role(db.Model):
     __table_name__ = 'roles'
 
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey(User.id))
-    # root_tab_id = 
+    root_tab_id = db.Column(db.Integer, nullable=False)
