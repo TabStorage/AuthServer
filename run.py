@@ -2,7 +2,7 @@ import os
 import unittest
 
 from flask_script import Manager
-from flask_migrate import Migrate, MigrateCommand
+from flask_migrate import Migrate, MigrateCommand, upgrade
 
 
 from app import create_app, db
@@ -30,6 +30,11 @@ def create_db():
 @manager.command
 def drop_db():
     db.drop_all()
+
+@manager.command
+def start():
+    upgrade()
+    manager.run()
 
 if __name__ == '__main__':
     manager.run()

@@ -33,6 +33,7 @@ def login():
             'status': 'fail',
             'msg': 'Some error occured.'
         }
+        return make_response(jsonify(responseObject)), 200
 
 @auth_blueprint.route('/join', methods=['POST'])
 def join():

@@ -10,7 +10,7 @@ content-type: application/json
 }
 
 # Admin user generate
-POST http://127.0.0.1:5000/auth/
+POST http://127.0.0.1:5000/auth/join
 content-type: application/json
 
 {
@@ -19,3 +19,15 @@ content-type: application/json
     "password": "test1234",
     "role": "admin"
 }
+
+POST http://127.0.0.1:5000/auth/login
+content-type: application/json
+
+{
+    "email": "sample@naver.com",
+    "password": "test1234"
+}
+
+GET http://127.0.0.1:5000/user/1
+
+GET http://127.0.0.1:5000/user/1/role

@@ -22,9 +22,17 @@ class TestGroup(unittest.TestCase):
         }
         user = User(**user_test)
         group = Group('TEST Group', 'This is unittest for group')
+
+        db.session.add(user)
+        db.session.add(group)
+        db.session.commit()
+
         group_member = JoinGroup(user.id, group.id)
 
-        print(user.groups)
+        db.session.add(group_member)
+        db.session.commit()
+
+        self.assertEqual(user.groups[0], group_member)
 
     def tearDown(self):
         db.session.remove()

@@ -124,9 +124,17 @@ class JoinGroup(db.Model):
         self.user_id = user_id
         self.group_id = group_id
 
-class Role(db.Model):
+class Permission(db.Model):
     __table_name__ = 'roles'
 
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey(User.id))
+    role = db.Column(db.Integer, default=0)
     root_tab_id = db.Column(db.Integer, nullable=False)
+
+    user = db.relationship("User", backref=backref('roles', cascade="all, delete-orphan"))
+
+    def __init__(self, userid, root_tab_id, role=0):
+        self.user_id = userid
+        self.role = role
+        self.root_tab_id

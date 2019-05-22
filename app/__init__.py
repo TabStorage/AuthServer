@@ -1,7 +1,7 @@
 from flask import Flask, Response, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
-from flask_migrate import Migrate
+from flask_migrate import Migrate, upgrade
 from config import config
 
 # define extension
