@@ -4,7 +4,6 @@ POST http://127.0.0.1:5000/auth/login
 content-type: application/json
 
 {
-    "username": "test1",
     "email": "sample@naver.com",
     "password": "test1234"
 }
@@ -31,3 +30,12 @@ content-type: application/json
 GET http://127.0.0.1:5000/user/1
 
 GET http://127.0.0.1:5000/user/1/role
+
+POST http://127.0.0.1:5000/user/1/role
+content-type: application/json
+
+{
+    "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1NTkyMjY5NzcsImlhdCI6MTU1ODk2Nzc3Nywic3ViIjoidGVzdDEiLCJyb2xlIjoidXNlciIsInVzZXJfaWQiOjF9.5ovG4Hdv8b6MjP0AyNf9iC8xPva3t7CjfGQuGOQxxNk",
+    "tab_id": 1,
+    "permission": 7
+}

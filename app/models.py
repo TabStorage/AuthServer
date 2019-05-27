@@ -137,4 +137,7 @@ class Permission(db.Model):
     def __init__(self, userid, root_tab_id, role=0):
         self.user_id = userid
         self.role = role
-        self.root_tab_id
+        self.root_tab_id = root_tab_id
+
+    def getAsDict(self):
+        return {self.root_tab_id : self.role}

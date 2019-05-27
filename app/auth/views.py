@@ -26,14 +26,14 @@ def login():
                 'status': 'fail',
                 'msg': 'User does not exist.',
             }
-            return make_response(jsonify(responseObject)), 200
+            return make_response(jsonify(responseObject)), 400
 
     except Exception as e:
         responseObject = {
             'status': 'fail',
             'msg': 'Some error occured.'
         }
-        return make_response(jsonify(responseObject)), 200
+        return make_response(jsonify(responseObject)), 400
 
 @auth_blueprint.route('/join', methods=['POST'])
 def join():
