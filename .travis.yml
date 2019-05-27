@@ -7,8 +7,6 @@ install:
   - pip install -r requirements.txt
 
 before_script:
-  - flask db init
-  - flask db migrate
   - flask deploy
 
 script:

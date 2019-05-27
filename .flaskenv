@@ -1,2 +1,0 @@
-FLASK_APP=run:app
-FLASK_RUN_PORT=8000

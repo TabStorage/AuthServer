@@ -5,6 +5,7 @@
 .vscode/
 *.db
 *.sqlite
+.flaskenv
 
 
 ### Flask ###

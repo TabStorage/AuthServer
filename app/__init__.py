@@ -15,7 +15,6 @@ api = Api()
 def create_app(mode):
     # Set Flask setting
     app = Flask(__name__)
-    print(mode)
     app.config.from_object(config[mode])
 
     # Set extension
