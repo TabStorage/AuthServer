@@ -14,12 +14,14 @@ def login():
     try:
         user = User.query.filter_by(email=request.json['email']).first()
         if user.validated_password(request.json['password']):
-            token = user.generate_token()
+            token = user.generate_token().decode()
             responseObject = {
                 'status': 'success',
-                'token': token.decode(),
+                'token': token,
             }
-            return make_response(jsonify(responseObject)), 200
+            response = make_response(jsonify(responseObject))
+            response.set_cookie('TABFARM_TOKEN', token, secure=True, httponly=True)
+            return response, 200
 
         else:
             responseObject = {
@@ -39,7 +41,6 @@ def login():
 def join():
     if not request.json:
         abort(400)
-
     try:
         user = User(username=request.json['username'], email=request.json['email'])
         user.set_password(request.json['password'])

@@ -6,10 +6,10 @@ class Config:
     SECRET_KEY = os.environ.get('SECRET_KEY') or 'hard to guess string'
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     SQLALCHEMY_RECORD_QUERIES = True
-    # SESSION_COOKIE_SECURE = True
-    # REMEMBER_COOKIE_SECURE = True
-    # SESSION_COOKIE_HTTPONLY = True
-    # REMEMBER_COOKIE_HTTPONLY = True
+    SESSION_COOKIE_SECURE = True
+    REMEMBER_COOKIE_SECURE = True
+    SESSION_COOKIE_HTTPONLY = True
+    REMEMBER_COOKIE_HTTPONLY = True
 
     @staticmethod
     def init_app(app):
@@ -26,7 +26,6 @@ class TestingConfig(Config):
     TESTING = True
     SQLALCHEMY_DATABASE_URI = os.environ.get('TEST_DATABASE_URL') or \
         'sqlite://'
-
 
 config = {
     'development': DevelopmentConfig,
