@@ -37,7 +37,7 @@ def Role(userid):
         if request.json:
             try:
                 payload = User.validated_token(request.json['token'])
-                user = User.query.filter_by(username=payload['username']).first()
+                user = User.query.filter_by(username=payload['sub']).first()
                 
                 # TODO: Get tab owner information
                 staff = user

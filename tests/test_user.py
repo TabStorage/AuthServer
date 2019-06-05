@@ -30,8 +30,9 @@ class TestUser(unittest.TestCase):
         self.assertTrue(user == test)
 
         token = user.generate_token()
-
-        self.assertEqual(user_test['username'], User.validated_token(token)['username'])
+        payload = User.validated_token(token)
+        
+        self.assertEqual(user_test['username'], payload['sub'])
 
     def tearDown(self):
         db.session.remove()
