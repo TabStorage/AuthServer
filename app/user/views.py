@@ -6,7 +6,7 @@ from app.lib import jwt_required
 from . import user_blueprint
 
 @user_blueprint.route('/<userid>')
-@jwt_required
+@jwt_required()
 def getUser(userid):
     try:
         user = User.query.get(int(userid))
@@ -28,7 +28,7 @@ def getUser(userid):
         return make_response(jsonify(responseObject)), 200
 
 @user_blueprint.route('/<userid>/role', methods=['GET', 'POST'])
-@jwt_required
+@jwt_required()
 def Role(userid):
     if request.method == 'GET':
         pass
@@ -36,9 +36,8 @@ def Role(userid):
     elif request.method == 'POST':
         if request.json:
             try:
-                # TODO: get token from cookie or request header
-                username = User.validated_token(request.json['token'])
-                user = User.query.filter_by(username=username).first()
+                payload = User.validated_token(request.json['token'])
+                user = User.query.filter_by(username=payload['username']).first()
                 
                 # TODO: Get tab owner information
                 staff = user

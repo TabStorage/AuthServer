@@ -1,6 +1,9 @@
 import os
 basedir = os.path.abspath(os.path.dirname(__file__))
 
+DEV_DATABASE_URL='mysql://kernelgarden:tabstorage@kernelgarden-db.cmcuy239248x.ap-northeast-2.rds.amazonaws.com:3306/tabfarm'
+
+
 
 class Config:
     SECRET_KEY = os.environ.get('SECRET_KEY') or 'hard to guess string'

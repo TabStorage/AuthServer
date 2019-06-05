@@ -20,7 +20,7 @@ def login():
                 'token': token,
             }
             response = make_response(jsonify(responseObject))
-            response.set_cookie('TABFARM_TOKEN', token, secure=True, httponly=True)
+            response.set_cookie('TABFARM_TOKEN', token, httponly=True)
             return response, 200
 
         else:
@@ -31,9 +31,10 @@ def login():
             return make_response(jsonify(responseObject)), 400
 
     except Exception as e:
+        print(e)
         responseObject = {
             'status': 'fail',
-            'msg': 'Some error occured.'
+            'msg': str(e)
         }
         return make_response(jsonify(responseObject)), 400
 
